@@ -1,0 +1,340 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #16161a;
+  color: #e5e5e5;
+}
+
+header {
+  background-color: #2d2d2d;
+  background-color: #16161a;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
+  /* padding: 10px 16px; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #f5f5f5;
+  padding: 10px;
+}
+
+.top-buttons button {
+  padding: 6px 12px;
+  margin-left: 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2d2d2d;
+  color: #e5e5e5;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.upload i {
+  font-size: 20px;
+}
+
+.upload-func {
+  padding: 10px;
+}
+
+.top-buttons .planner {
+  background-color: #ca8a04;
+  color: black;
+}
+
+.top-buttons button:hover {
+  filter: brightness(1.2);
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+aside {
+  width: 150px;
+  /* background-color: #2d2d2d; */
+  background-color: #16161a;
+  box-shadow: 2px 0 5px rgba(255, 255, 255, 0.05);
+  padding-left: 25px;
+  overflow-y: auto;
+}
+
+aside h2 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+aside ul {
+  list-style: none;
+}
+
+aside li {
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-bottom: 20px;
+  font-size: medium;
+}
+
+/* main {
+  flex: 1;
+  background-color: #111;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.main-display {
+  border: 2px dashed #444;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+  text-align: center;
+} */
+
+.hidden {
+  display: none;
+}
+
+#folder-list li {
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #7f5af0;
+  padding: 10px;
+}
+#folder-list li:hover {
+  background-color: #2c2c2c;
+  box-shadow: 2px 0 5px rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+#folder-list li.active {
+  background-color: #2c2c2c;
+  box-shadow: 2px 0 5px rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+/* .popup-box {
+  background: #1e1e1e;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  width: 300px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.popup-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 15px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+.popup-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #4d0602;
+  color: white;
+}
+
+.popup-buttons button:hover {
+  background-color: #600805;
+} */
+
+#context-menu {
+  position: absolute;
+  z-index: 9999;
+  background-color: #1f1f1f;
+  color: #f1f1f1;
+  border-radius: 8px;
+  min-width: 160px;
+  overflow: hidden;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.15s ease-in-out;
+}
+
+#context-menu.hidden {
+  display: none;
+}
+
+#context-menu button {
+  all: unset;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#context-menu button:hover {
+  background-color: #2c2c2c;
+}
+aside {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #1f1f1f rgba(255, 255, 255, 0.1);
+}
+.display-pdf {
+  margin-left: 20px;
+  padding: 0;
+  list-style: none;
+  width: 1300px;
+}
+
+.file-item {
+  background-color: #01010145; /* Dark neutral background */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Softer border */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  padding: 20px 24px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  transition: border 0.2s ease, background-color 0.2s ease;
+}
+
+.file-item:hover {
+  /* border-color: rgba(255, 255, 255, 0.2); */
+  background-color: #0d0d0d42;
+}
+.pdf-page {
+  display: block;
+  margin: 20px auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+  max-width: 100%;
+  height: auto;
+}
+
+.pdf-page:hover {
+  transform: scale(1.01);
+}
+#pdf-wrapper {
+  background: black;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+#toolbar {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+/* button {
+  padding: 10px 15px;
+  margin: 0 10px;
+  border: none;
+  background: #0a1f44;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+} */
+
+button {
+  background-color: #7f5af0;
+  color: #fffffe;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+  margin: 10px;
+}
+.upload-func {
+  display: flex;
+  justify-content: space-between;
+}
+
+.file-item {
+  position: relative;
+  padding-right: 30px;
+}
+
+.scissor {
+  display: none;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-75%);
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+.copy {
+  display: none;
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-75%);
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+.bookmark {
+  display: none;
+  position: absolute;
+  right: 100px;
+  top: 50%;
+  transform: translateY(-75%);
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+.scissor-icon {
+  color: #7f5af0; /* any color you want */
+  font-size: 18px; /* optional size */
+}
+.copy-icon {
+  color: #7f5af0; /* any color you want */
+  font-size: 18px; /* optional size */
+}
+.bookmark-icon {
+  color: #7f5af0; /* any color you want */
+  font-size: 18px; /* optional size */
+}
+
+.file-item:hover .scissor {
+  display: inline-block;
+}
+.file-item:hover .copy {
+  display: inline-block;
+}
+.file-item:hover .bookmark {
+  display: inline-block;
+}
+.bookmark-pdf {
+  margin-top: 20px;
+  margin-left: 20px;
+  padding: 0;
+  list-style: none;
+  width: 1300px;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="projetcs.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="logo">
+        <div class="logo-div">
+          <i class="ph ph-chart-donut"></i>
+        </div>
+      </div>
+
+      <div class="home">
+        <div class="home-nav">
+          <ul>
+            <li class="active">Local</li>
+            <li>Create</li>
+            <li>Delete</li>
+            <li>Edit</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="second-home-div">
+      <div class="second-home">
+        <div class="second-home-nav">
+          <ul>
+            <li><i class="ph ph-magnifying-glass"></i></li>
+            <li class="active"><i class="ph ph-folder"></i></li>
+            <li><i class="ph ph-user"></i></li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="folder-container" class="grid-container">
+        <div id="create-folder" class="item-cf">
+          <i class="ph ph-plus"></i>
+          <p>Create New Folder</p>
+          <div class="icon-bar-cf"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="context-menu" class="hidden">
+      <button id="delete-folder-btn">Delete</button>
+    </div>
+
+    <div id="folder-popup" class="popup hidden">
+      <div class="popup-box">
+        <h3>Name Your Folder</h3>
+        <input
+          type="text"
+          id="folder-name-input"
+          placeholder="Enter folder name..."
+        />
+        <div class="popup-buttons">
+          <button id="create-folder-btn">Create</button>
+          <button id="cancel-folder-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="projects.js"></script>
+  </body>
+</html>
