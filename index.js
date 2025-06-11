@@ -64,16 +64,15 @@ function initializeApp() {
         const arrayBuffer = e.target.result;
         uploadedPDFs[file.name] = arrayBuffer;
         const newLi = document.createElement("li");
-        newLi.innerHTML = `📄 ${file.name}  
-        <button class="scissor">          
-        <i class="fa-solid fa-scissors scissor-icon"></i>       
-        </button> 
-        <button class="copy">          
-        <i class="fa-regular fa-copy copy-icon"></i>      
-        </button>
-        <button class="bookmark">          
-        <i class="fa-regular fa-bookmark bookmark-icon"></i>      
-        </button>`;
+        newLi.innerHTML = `📄 ${file.name} <button class="scissor">          
+    <i class="fa-solid fa-scissors scissor-icon"></i>       
+    </button> 
+    <button class="copy">          
+    <i class="fa-regular fa-copy copy-icon"></i>      
+    </button>
+    <button class="bookmark">          
+   <i class="fa-regular fa-bookmark bookmark-icon"></i>      
+    </button>`;
         newLi.classList.add(
           "file-item",
           "cursor-pointer",
@@ -84,6 +83,12 @@ function initializeApp() {
         displayPdf.appendChild(newLi);
         newLi.addEventListener("click", () => {
           renderPDF(file.name);
+        });
+
+        const bookmarkBtn = newLi.querySelector(".bookmark");
+        bookmarkBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          bookmarkFile(file.name);
         });
         if (!savedFiles.includes(file.name)) {
           savedFiles.push(file.name);
@@ -151,6 +156,12 @@ function loadSavedFiles() {
     const bookmarkBtn = newLi.querySelector(".bookmark");
     bookmarkBtn.addEventListener("click", (e) => {
       e.stopPropagation();
+      const icon = bookmarkBtn.querySelector(".bookmark-icon");
+
+      if (icon.classList.contains("fa-regular")) {
+        icon.classList.remove("fa-regular");
+        icon.classList.add("fa-solid");
+      }
       bookmarkFile(fileName);
     });
   });
@@ -180,15 +191,14 @@ function bookmarkFile(fileName) {
 
   // Create and append the bookmark item
   const li = document.createElement("li");
-  li.innerHTML = `📄 ${fileName} 
-    <button class="scissor">          
+  li.innerHTML = `📄 ${fileName} <button class="scissor">          
     <i class="fa-solid fa-scissors scissor-icon"></i>       
     </button> 
     <button class="copy">          
     <i class="fa-regular fa-copy copy-icon"></i>      
     </button>
     <button class="bookmark remove-bookmark">          
-   <i class="fa-regular fa-bookmark bookmark-icon"></i>      
+   <i class="fa-solid fa-bookmark bookmark-icon"></i>      
     </button>`;
   li.classList.add("file-item", "cursor-pointer", "hover:text-yellow-500");
   li.dataset.name = fileName;
@@ -198,13 +208,13 @@ function bookmarkFile(fileName) {
     renderPDF(fileName);
   });
 
-  bookmarkList.appendChild(li);
-
   const removeBtn = li.querySelector(".remove-bookmark");
   removeBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     removeBookmark(fileName, li);
   });
+
+  bookmarkList.appendChild(li);
 }
 
 function loadBookmarkedFiles() {
@@ -221,7 +231,7 @@ function loadBookmarkedFiles() {
     <i class="fa-regular fa-copy copy-icon"></i>      
     </button>
     <button class="bookmark remove-bookmark">          
-   <i class="fa-regular fa-bookmark bookmark-icon"></i>      
+   <i class="fa-solid fa-bookmark bookmark-icon"></i>      
     </button>`;
     li.classList.add("file-item", "cursor-pointer", "hover:text-yellow-500");
     li.dataset.name = fileName;
@@ -231,12 +241,12 @@ function loadBookmarkedFiles() {
       renderPDF(fileName);
     });
 
-    bookmarkList.appendChild(li);
     const removeBtn = li.querySelector(".remove-bookmark");
     removeBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       removeBookmark(fileName, li);
     });
+    bookmarkList.appendChild(li);
   });
 }
 function removeBookmark(fileName, listItem) {
@@ -342,6 +352,7 @@ function goBack() {
     document.body.innerHTML = savedMainHTML;
     savedMainHTML = null;
     initializeApp();
+    setupTabClicks();
   }
 }
 
