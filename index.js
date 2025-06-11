@@ -199,6 +199,12 @@ function bookmarkFile(fileName) {
   });
 
   bookmarkList.appendChild(li);
+
+  const removeBtn = li.querySelector(".remove-bookmark");
+  removeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    removeBookmark(fileName, li);
+  });
 }
 
 function loadBookmarkedFiles() {
