@@ -64,7 +64,16 @@ function initializeApp() {
         const arrayBuffer = e.target.result;
         uploadedPDFs[file.name] = arrayBuffer;
         const newLi = document.createElement("li");
-        newLi.textContent = `📄 ${file.name}`;
+        newLi.innerHTML = `📄 ${file.name}  
+        <button class="scissor">          
+        <i class="fa-solid fa-scissors scissor-icon"></i>       
+        </button> 
+        <button class="copy">          
+        <i class="fa-regular fa-copy copy-icon"></i>      
+        </button>
+        <button class="bookmark">          
+        <i class="fa-regular fa-bookmark bookmark-icon"></i>      
+        </button>`;
         newLi.classList.add(
           "file-item",
           "cursor-pointer",
@@ -171,7 +180,16 @@ function bookmarkFile(fileName) {
 
   // Create and append the bookmark item
   const li = document.createElement("li");
-  li.innerHTML = `📄 ${fileName}`;
+  li.innerHTML = `📄 ${fileName} 
+    <button class="scissor">          
+    <i class="fa-solid fa-scissors scissor-icon"></i>       
+    </button> 
+    <button class="copy">          
+    <i class="fa-regular fa-copy copy-icon"></i>      
+    </button>
+    <button class="bookmark remove-bookmark">          
+   <i class="fa-regular fa-bookmark bookmark-icon"></i>      
+    </button>`;
   li.classList.add("file-item", "cursor-pointer", "hover:text-yellow-500");
   li.dataset.name = fileName;
   li.title = fileName;
