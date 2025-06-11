@@ -13,6 +13,46 @@ body {
   color: #e5e5e5;
 }
 
+/* Add this to your existing CSS */
+.nex-background-text {
+  font-family: "Arial", sans-serif;
+  font-size: 10rem;
+  font-weight: 900;
+  color: #ffffff;
+  opacity: 0.1;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 70%;
+  left: 30%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  pointer-events: none;
+  z-index: -1;
+}
+.next-background-text {
+  font-family: "Arial", sans-serif;
+  font-size: 10rem;
+  font-weight: 900;
+  color: #ffffff;
+  opacity: 0.05;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 73.5%;
+  left: 60%;
+  transform: translate(-50%, -50%) rotate(-0deg);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.nexdraft-icon {
+  width: 40px;
+  height: 40px;
+  margin-left: 20px;
+}
+.icom {
+  display: flex;
+}
 header {
   background-color: #2d2d2d;
   background-color: #16161a;
