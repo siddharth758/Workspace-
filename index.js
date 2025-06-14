@@ -18,7 +18,7 @@ let newFolder,
   mainDisplay;
 
 // =====================
-// Initialize app: assign elements, add listeners, load saved files
+// Initialize app
 // =====================
 function initializeApp() {
   newFolder = document.getElementById("new-folder");
@@ -29,13 +29,13 @@ function initializeApp() {
   deleteBtn = document.getElementById("delete-folder-btn");
   displayPdf = document.getElementById("display-pdf");
   mainDisplay = document.querySelector(".main-display");
+
   displayPdf.innerHTML = "";
   loadSavedFiles();
+
   displayPdf.addEventListener("contextmenu", (e) => {
     e.preventDefault();
-    if (e.target.tagName === "LI") {
-      showContextMenu(e);
-    }
+    if (e.target.tagName === "LI") showContextMenu(e);
   });
 
   document.addEventListener("click", (e) => {
@@ -43,14 +43,15 @@ function initializeApp() {
       contextMenu.classList.add("hidden");
     }
   });
+
   window.addEventListener("contextmenu", (e) => {
     if (e.target.closest("#display-pdf")) {
       e.preventDefault();
     }
   });
-  uploadBtn.addEventListener("click", () => {
-    fileInput.click();
-  });
+
+  uploadBtn.addEventListener("click", () => fileInput.click());
+
   fileInput.addEventListener("change", (event) => {
     const files = event.target.files;
     const savedFiles = JSON.parse(localStorage.getItem("uploadedFiles")) || [];
@@ -63,16 +64,14 @@ function initializeApp() {
       reader.onload = function (e) {
         const arrayBuffer = e.target.result;
         uploadedPDFs[file.name] = arrayBuffer;
+
         const newLi = document.createElement("li");
-        newLi.innerHTML = `📄 ${file.name} <button class="scissor">          
-    <i class="fa-solid fa-scissors scissor-icon"></i>       
-    </button> 
-    <button class="copy">          
-    <i class="fa-regular fa-copy copy-icon"></i>      
-    </button>
-    <button class="bookmark">          
-   <i class="fa-regular fa-bookmark bookmark-icon"></i>      
-    </button>`;
+        newLi.innerHTML = `
+          📄 ${file.name} 
+          <button class="scissor"><i class="fa-solid fa-scissors scissor-icon"></i></button>
+          <button class="copy"><i class="fa-regular fa-copy copy-icon"></i></button>
+          <button class="bookmark"><i class="fa-regular fa-bookmark bookmark-icon"></i></button>
+        `;
         newLi.classList.add(
           "file-item",
           "cursor-pointer",
@@ -81,15 +80,15 @@ function initializeApp() {
         newLi.title = file.name;
         newLi.setAttribute("data-filename", file.name);
         displayPdf.appendChild(newLi);
-        newLi.addEventListener("click", () => {
-          renderPDF(file.name);
-        });
+
+        newLi.addEventListener("click", () => renderPDF(file.name));
 
         const bookmarkBtn = newLi.querySelector(".bookmark");
         bookmarkBtn.addEventListener("click", (e) => {
           e.stopPropagation();
           bookmarkFile(file.name);
         });
+
         if (!savedFiles.includes(file.name)) {
           savedFiles.push(file.name);
           localStorage.setItem("uploadedFiles", JSON.stringify(savedFiles));
@@ -98,12 +97,13 @@ function initializeApp() {
 
       reader.readAsArrayBuffer(file);
     }
+
     fileInput.value = "";
   });
+
   deleteBtn.addEventListener("click", () => {
     if (!rightClickedItem) return;
-
-    const text = rightClickedItem.textContent.slice(2).trim(); // Remove 📁 or 📄 emoji
+    const text = rightClickedItem.textContent.slice(2).trim();
 
     if (rightClickedItem.textContent.startsWith("📁")) {
       let folders = JSON.parse(localStorage.getItem("folders")) || [];
@@ -129,35 +129,24 @@ function loadSavedFiles() {
   const savedFiles = JSON.parse(localStorage.getItem("uploadedFiles")) || [];
 
   savedFiles.forEach((fileName) => {
-    if (!uploadedPDFs[fileName]) {
-    }
-
     const newLi = document.createElement("li");
-    newLi.innerHTML = `📄 ${fileName} 
-    <button class="scissor">          
-    <i class="fa-solid fa-scissors scissor-icon"></i>       
-    </button> 
-    <button class="copy">          
-    <i class="fa-regular fa-copy copy-icon"></i>      
-    </button>
-    <button class="bookmark">          
-   <i class="fa-regular fa-bookmark bookmark-icon"></i>      
-    </button>`;
+    newLi.innerHTML = `
+      📄 ${fileName} 
+      <button class="scissor"><i class="fa-solid fa-scissors scissor-icon"></i></button>
+      <button class="copy"><i class="fa-regular fa-copy copy-icon"></i></button>
+      <button class="bookmark"><i class="fa-regular fa-bookmark bookmark-icon"></i></button>
+    `;
     newLi.classList.add("file-item", "cursor-pointer", "hover:text-green-500");
     newLi.dataset.name = fileName;
     newLi.title = fileName;
     displayPdf.appendChild(newLi);
 
-    newLi.addEventListener("click", () => {
-      renderPDF(fileName);
-    });
+    newLi.addEventListener("click", () => renderPDF(fileName));
 
-    //Bookmark button click saves to bookmarks
     const bookmarkBtn = newLi.querySelector(".bookmark");
     bookmarkBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       const icon = bookmarkBtn.querySelector(".bookmark-icon");
-
       if (icon.classList.contains("fa-regular")) {
         icon.classList.remove("fa-regular");
         icon.classList.add("fa-solid");
@@ -168,16 +157,13 @@ function loadSavedFiles() {
 }
 
 // =====================
-// Bookmark Function (PUT THIS BELOW loadSavedFiles)
+// Bookmark Function
 // =====================
 function bookmarkFile(fileName) {
   const bookmarkList = document.getElementById("bookmark-pdf");
-
-  // Load existing bookmarks from localStorage
   const saved = localStorage.getItem("bookmarkedFiles");
   const bookmarks = saved ? JSON.parse(saved) : [];
 
-  // Prevent duplicates (both in UI and storage)
   const alreadyBookmarked =
     bookmarks.includes(fileName) ||
     Array.from(bookmarkList.children).some(
@@ -185,28 +171,21 @@ function bookmarkFile(fileName) {
     );
   if (alreadyBookmarked) return;
 
-  // Save to localStorage
   bookmarks.push(fileName);
   localStorage.setItem("bookmarkedFiles", JSON.stringify(bookmarks));
 
-  // Create and append the bookmark item
   const li = document.createElement("li");
-  li.innerHTML = `📄 ${fileName} <button class="scissor">          
-    <i class="fa-solid fa-scissors scissor-icon"></i>       
-    </button> 
-    <button class="copy">          
-    <i class="fa-regular fa-copy copy-icon"></i>      
-    </button>
-    <button class="bookmark remove-bookmark">          
-   <i class="fa-solid fa-bookmark bookmark-icon"></i>      
-    </button>`;
+  li.innerHTML = `
+    📄 ${fileName} 
+    <button class="scissor"><i class="fa-solid fa-scissors scissor-icon"></i></button>
+    <button class="copy"><i class="fa-regular fa-copy copy-icon"></i></button>
+    <button class="bookmark remove-bookmark"><i class="fa-solid fa-bookmark bookmark-icon"></i></button>
+  `;
   li.classList.add("file-item", "cursor-pointer", "hover:text-yellow-500");
   li.dataset.name = fileName;
   li.title = fileName;
 
-  li.addEventListener("click", () => {
-    renderPDF(fileName);
-  });
+  li.addEventListener("click", () => renderPDF(fileName));
 
   const removeBtn = li.querySelector(".remove-bookmark");
   removeBtn.addEventListener("click", (e) => {
@@ -224,31 +203,28 @@ function loadBookmarkedFiles() {
 
   bookmarks.forEach((fileName) => {
     const li = document.createElement("li");
-    li.innerHTML = `📄 ${fileName} <button class="scissor">          
-    <i class="fa-solid fa-scissors scissor-icon"></i>       
-    </button> 
-    <button class="copy">          
-    <i class="fa-regular fa-copy copy-icon"></i>      
-    </button>
-    <button class="bookmark remove-bookmark">          
-   <i class="fa-solid fa-bookmark bookmark-icon"></i>      
-    </button>`;
+    li.innerHTML = `
+      📄 ${fileName} 
+      <button class="scissor"><i class="fa-solid fa-scissors scissor-icon"></i></button>
+      <button class="copy"><i class="fa-regular fa-copy copy-icon"></i></button>
+      <button class="bookmark remove-bookmark"><i class="fa-solid fa-bookmark bookmark-icon"></i></button>
+    `;
     li.classList.add("file-item", "cursor-pointer", "hover:text-yellow-500");
     li.dataset.name = fileName;
     li.title = fileName;
 
-    li.addEventListener("click", () => {
-      renderPDF(fileName);
-    });
+    li.addEventListener("click", () => renderPDF(fileName));
 
     const removeBtn = li.querySelector(".remove-bookmark");
     removeBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       removeBookmark(fileName, li);
     });
+
     bookmarkList.appendChild(li);
   });
 }
+
 function removeBookmark(fileName, listItem) {
   listItem.remove();
   const saved = localStorage.getItem("bookmarkedFiles");
@@ -257,14 +233,66 @@ function removeBookmark(fileName, listItem) {
   localStorage.setItem("bookmarkedFiles", JSON.stringify(bookmarks));
 }
 
+let plannerNotes = JSON.parse(localStorage.getItem("plannerNotes") || "{}");
+let activeNoteKey = null;
+
+const barBtn = document.getElementById("bar");
+const noteBar = document.getElementById("note-bar");
+const noteArea = document.getElementById("note-area");
+const noteTitleInput = document.getElementById("noteTitle");
+
+function savePlannerNotes() {
+  localStorage.setItem("plannerNotes", JSON.stringify(plannerNotes));
+}
+
+function renderPlannerNotes() {
+  noteBar.innerHTML = "";
+  Object.keys(plannerNotes).forEach((key) => {
+    const li = document.createElement("li");
+    li.textContent = key;
+    li.onclick = () => {
+      activeNoteKey = key;
+      noteArea.value = plannerNotes[key];
+      noteTitleInput.value = key;
+    };
+    noteBar.appendChild(li);
+  });
+}
+
+barBtn.addEventListener("click", () => {
+  const title = prompt("Enter folder name:");
+  if (!title || plannerNotes[title]) return;
+  plannerNotes[title] = "";
+  activeNoteKey = title;
+  savePlannerNotes();
+  renderPlannerNotes();
+  noteArea.value = "";
+  noteTitleInput.value = title;
+});
+
+noteArea.addEventListener("input", () => {
+  if (activeNoteKey) {
+    plannerNotes[activeNoteKey] = noteArea.value;
+    savePlannerNotes();
+  }
+});
+
+function deleteNote() {
+  if (!activeNoteKey) return;
+  // const confirmed = confirm(`Delete note "${activeNoteKey}"?`);
+  // if (!confirmed) return;
+
+  delete plannerNotes[activeNoteKey];
+  savePlannerNotes();
+  activeNoteKey = null;
+  noteArea.value = "";
+  noteTitleInput.value = "";
+  renderPlannerNotes();
+}
+renderPlannerNotes();
+
 // =====================
-// Call loadSavedFiles when page loads
-// =====================
-// window.onload = function () {
-//   loadSavedFiles();
-// };
-// =====================
-// Context Menu Functions
+// Context Menu
 // =====================
 function showContextMenu(e) {
   rightClickedItem = e.target;
@@ -274,7 +302,7 @@ function showContextMenu(e) {
 }
 
 // =====================
-// Render PDF on the page, replacing main UI
+// Render PDF in fullscreen view
 // =====================
 function renderPDF(fileName) {
   const pdfData = uploadedPDFs[fileName];
@@ -282,24 +310,24 @@ function renderPDF(fileName) {
     alert("This PDF is not loaded. Please re-upload the file.");
     return;
   }
-  savedMainHTML = document.body.innerHTML;
 
+  savedMainHTML = document.body.innerHTML;
   document.body.innerHTML = "";
+
   const wrapper = document.createElement("div");
   wrapper.id = "pdf-wrapper";
   document.body.appendChild(wrapper);
   wrapper.innerHTML = `
-     <div id="toolbar" style="margin-bottom: 10px;">
-       <button id="back-btn">Close</button>
-     </div>
-     <div id="pdf-container">
-     </div>
+    <div id="toolbar">
+      <button id="back-btn">Close</button>
+    </div>
+    <div id="pdf-container"></div>
   `;
 
   document.getElementById("back-btn").addEventListener("click", goBack);
 
   const container = document.getElementById("pdf-container");
-  const displayWidth = 650; // 👈 You can change this to make it smaller or larger
+  const displayWidth = 650;
 
   pdfjsLib.getDocument({ data: pdfData }).promise.then((pdf) => {
     const numPages = pdf.numPages;
@@ -307,45 +335,30 @@ function renderPDF(fileName) {
     (async function renderAllPages() {
       for (let pageNumber = 1; pageNumber <= numPages; pageNumber++) {
         const page = await pdf.getPage(pageNumber);
-
         const baseViewport = page.getViewport({ scale: 1 });
-
-        // Scale to match visual display width
         const scale = displayWidth / baseViewport.width;
         const viewport = page.getViewport({ scale });
-
-        // High-DPI scale factor
         const ratio = window.devicePixelRatio || 1;
 
         const canvas = document.createElement("canvas");
         canvas.classList.add("pdf-page");
-
-        // Physical pixels (for clarity)
         canvas.width = viewport.width * ratio;
         canvas.height = viewport.height * ratio;
-
-        // Visual display size
         canvas.style.width = `${viewport.width}px`;
         canvas.style.height = `${viewport.height}px`;
 
         const context = canvas.getContext("2d");
-
-        // Draw everything scaled
         context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
         container.appendChild(canvas);
-
-        await page.render({
-          canvasContext: context,
-          viewport: viewport,
-        }).promise;
+        await page.render({ canvasContext: context, viewport }).promise;
       }
     })();
   });
 }
 
 // =====================
-// Go Back to main UI, restore saved HTML and reinitialize
+// Go Back to main UI
 // =====================
 function goBack() {
   if (savedMainHTML) {
@@ -353,9 +366,11 @@ function goBack() {
     savedMainHTML = null;
     initializeApp();
     setupTabClicks();
+    loadBookmarkedFiles();
   }
 }
 
+// =====================
 // On page load
 // =====================
 window.addEventListener("DOMContentLoaded", () => {
@@ -365,7 +380,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // =====================
-// Switch View (for tabs like Bookmark)
+// Switch View Tabs
 // =====================
 function switchView(viewIdToShow) {
   const views = document.querySelectorAll(".view-section");
@@ -373,10 +388,17 @@ function switchView(viewIdToShow) {
 
   const viewToShow = document.getElementById(viewIdToShow);
   if (viewToShow) viewToShow.style.display = "block";
+
+  const nexText = document.getElementById("nex-text");
+  const draftText = document.getElementById("draft-text");
+  const isPlanner = viewIdToShow === "planner-view";
+
+  nexText.style.display = isPlanner ? "none" : "block";
+  draftText.style.display = isPlanner ? "none" : "block";
 }
 
 // =====================
-// Setup tab switching
+// Tab Switching Setup
 // =====================
 function setupTabClicks() {
   document.getElementById("bookmark-tab").addEventListener("click", () => {
@@ -385,5 +407,9 @@ function setupTabClicks() {
 
   document.getElementById("planner-tab").addEventListener("click", () => {
     switchView("planner-view");
+  });
+
+  document.getElementById("recent-tab").addEventListener("click", () => {
+    switchView("main-view");
   });
 }
