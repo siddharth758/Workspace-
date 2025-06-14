@@ -13,8 +13,8 @@
     <title>Personal Workspace</title>
   </head>
   <body>
-    <div class="nex-background-text">Nex</div>
-    <div class="next-background-text">Draft</div>
+    <div class="nex-background-text" id="nex-text">Nex</div>
+    <div class="next-background-text" id="draft-text">Draft</div>
     <!-- Topbar -->
     <header>
       <div class="icom">
@@ -112,7 +112,7 @@
         <ul id="folder-list">
           <li onclick="location.reload()" id="recent-tab">Recent</li>
           <li id="bookmark-tab">Bookmark</li>
-          <li id="planner-tab">Planner</li>
+          <li id="planner-tab">Notes</li>
         </ul>
       </aside>
       <div id="context-menu" class="hidden">
@@ -156,7 +156,34 @@
         </ul>
       </div>
       <div id="planner-view" class="view-section" style="display: none">
-        <p>Here are your planner items.</p>
+        <div class="notes-slide">
+          <div class="notes">
+            <div class="notes-main">
+              <button id="bar">New-Bar</button>
+            </div>
+            <div class="note-sidebar">
+              <ul id="note-bar"></ul>
+            </div>
+          </div>
+          <div class="note-wrapper">
+            <div id="controls">
+              <div>
+                <button onclick="deleteNote()" class="note-button">
+                  Delete
+                </button>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  id="noteTitle"
+                  placeholder="Note Title"
+                  disabled
+                />
+              </div>
+            </div>
+            <textarea id="note-area"></textarea>
+          </div>
+        </div>
       </div>
     </div>
     <script src="index.js"></script>
