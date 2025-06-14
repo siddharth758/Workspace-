@@ -311,6 +311,7 @@ button {
   transition: all 0.3s ease;
   margin: 10px;
 }
+
 .upload-func {
   display: flex;
   justify-content: space-between;
@@ -379,4 +380,84 @@ button {
   padding: 0;
   list-style: none;
   width: 1300px;
+}
+#note-bar {
+  margin-top: 1px;
+  margin-left: 12px;
+  min-width: 100px;
+  max-width: fit-content;
+  height: 615px;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  overflow-y: auto;
+  border-radius: 5px;
+  scrollbar-width: none;
+  padding: 0;
+}
+
+#note-bar li {
+  list-style: none;
+  font-weight: 600;
+  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+  padding: 8px 15px;
+  color: white;
+  margin-bottom: 2px;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+#note-bar li:hover {
+  background-color: #7f5af0;
+  color: white;
+}
+.notes-slide {
+  display: flex;
+  justify-content: space-between;
+}
+#note-area {
+  width: 1200px;
+  height: 615px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: #16161a;
+  color: #fff;
+  position: absolute;
+  bottom: 0px;
+  left: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+}
+.note-wrapper {
+  position: relative;
+}
+.note-button {
+  background-color: #7f5af0;
+  color: #fffffe;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 10px;
+  margin-left: 20px;
+}
+#noteTitle {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  color: #333;
+}
+#controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
